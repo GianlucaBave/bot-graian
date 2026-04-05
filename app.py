@@ -525,7 +525,8 @@ if prompt := st.chat_input("Ask about portfolio data..."):
     # Build API messages
     api_messages = [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
 
-    client = Anthropic()
+    api_key = st.secrets.get("ANTHROPIC_API_KEY", None)
+    client = Anthropic(api_key=api_key) if api_key else Anthropic()
     figures_for_msg = []
 
     # Run the agent loop outside of chat_message to avoid spinner overlay on history
